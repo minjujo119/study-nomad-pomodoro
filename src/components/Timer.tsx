@@ -56,24 +56,17 @@ const Timer = () => {
   const StringSecond = String(time % 60);
 
   return (
-    <TimeWrap>
-      <Time
-        key={StringMinute}
-        variants={timeMotion}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-      >
+    <TimeWrap
+      variants={timeMotion}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
+      <Time key={StringMinute} variants={timeMotion}>
         {StringMinute.length === 1 ? `0${StringMinute}` : StringMinute}
       </Time>
       <span>:</span>
-      <Time
-        key={StringSecond}
-        variants={timeMotion}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-      >
+      <Time key={StringSecond} variants={timeMotion}>
         {StringSecond.length === 1 ? `0${StringSecond}` : StringSecond}
       </Time>
     </TimeWrap>

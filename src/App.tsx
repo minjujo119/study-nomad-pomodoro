@@ -5,11 +5,8 @@
 // 총 4개 라운드 있어야함
 
 import styled from "styled-components";
-import { motion } from "motion/react";
-import { useRecoilState } from "recoil";
-import { isPlayAtom } from "./data/atom";
-import SvgIcon from "./data/SvgPath";
 import Timer from "./components/Timer";
+import PlayBtn from "./components/PlayBtn";
 
 
 const Wrap = styled.div`
@@ -28,33 +25,14 @@ const Title = styled.h1`
   font-weight: 700;
   color: white;
 `;
-const PlayBtn = styled(motion.button)`
-  width: 100px;
-  height: 100px;
-  border-radius: 100%;
-  color: white;
-`;
+
 function App() {
-
-  // 재생/일시정지 토글
-  const [isPlay, setIsPlay] = useRecoilState(isPlayAtom);
-  const togglePlayBtn = () => setIsPlay((prev) => !prev);
-  console.log(isPlay);
-
-  // 모션 구현
-  // const TimeVariants = {
-  //   initial: {},
-  //   animate: {},
-  //   exit: {},
-  // };
 
   return (
     <Wrap>
       <Title>Pomodoro</Title>
       <Timer/>
-      <PlayBtn onClick={togglePlayBtn}>
-        <SvgIcon />
-      </PlayBtn>
+      <PlayBtn></PlayBtn>
     </Wrap>
   );
 }
