@@ -5,7 +5,7 @@ export const isPlayAtom = atom({
   default:false
 });
 
-// export const atoms = atom({
-//   key:"key",
-//   default:[]
-// });
+export const timeAtom = atom({
+  key:"time",
+  default:300
+});

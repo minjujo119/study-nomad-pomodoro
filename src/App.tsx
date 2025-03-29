@@ -6,7 +6,6 @@
 
 import styled from "styled-components";
 import { motion } from "motion/react";
-// import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { isPlayAtom } from "./data/atom";
 import SvgIcon from "./data/SvgPath";
