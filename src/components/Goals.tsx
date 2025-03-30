@@ -28,9 +28,12 @@ const Goals = () => {
   const [goal, setGoal] = useRecoilState(goalAtom);
 
   useEffect(() => {
+    // round 완료 시 goal 1씩 증가
     if (round === defaultValues.round && goal < defaultValues.goal) {
       setRound(0);
       setGoal((current) => current + 1);
+
+      // goal 완료 시 알림창 띄우기
     } else if (goal === defaultValues.goal) {
       alert("Congratulations!");
     }
