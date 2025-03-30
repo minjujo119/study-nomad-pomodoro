@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "motion/react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { isPlayAtom, roundAtom, goalAtom } from "../data/atom";
+import { useRecoilState } from "recoil";
+import { roundAtom, goalAtom } from "../data/atom";
 import { defaultValues } from "../data/atom";
 import { useEffect } from "react";
 
@@ -24,7 +24,6 @@ const GoalNumber = styled(motion.div)`
 `;
 
 const Goals = () => {
-  const isPlay = useRecoilValue(isPlayAtom);
   const [round, setRound] = useRecoilState(roundAtom);
   const [goal, setGoal] = useRecoilState(goalAtom);
 
@@ -35,7 +34,7 @@ const Goals = () => {
     } else if (goal === defaultValues.goal) {
       alert("Congratulations!");
     }
-  }, [isPlay, round, goal, setRound, setGoal]);
+  }, [round, goal, setRound, setGoal]);
 
   return (
     <Wrap>
