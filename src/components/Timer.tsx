@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { motion } from "motion/react";
-import { useEffect, useState, useRef } from "react";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { isPlayAtom, timeAtom } from "../data/atom";
+import { useEffect } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { isPlayAtom, timeAtom, roundAtom } from "../data/atom";
+import { defaultValues } from "../data/atom";
 
 // styles
-const TimeWrap = styled(motion.div)`
+const Wrap = styled(motion.section)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,37 +32,36 @@ const timeMotion = {
 };
 
 const Timer = () => {
-  // const [minute, setMinute] = useState(0);
-  // const [second, setSecond] = useState(0);
-  const isPlay = useRecoilValue(isPlayAtom);
+  const [isPlay, setIsPlay] = useRecoilState(isPlayAtom);
   const [time, setTime] = useRecoilState(timeAtom);
-  const timerID = useRef<number | undefined>(undefined);
+  const setRound = useSetRecoilState(roundAtom);
 
   useEffect(() => {
     if (!isPlay) return; // isPlay가 false면 인터벌 호출 X
 
     // 렌더링될 때마다 인터벌 호출해서 second 값을 1씩 빼기
-    timerID.current = setInterval(() => {
-      if (time > 0) setTime((current: number) => current - 1);
-      else setTime(0);
+    const timerID = setInterval(() => {
+      if (time > 0) {
+        setTime((current) => current - 1);
+      } else if (time === 0) {
+        setTime(defaultValues.time);
+        setRound((current) => current + 1);
+        setIsPlay(false);
+      } else {
+        setTime(0);
+      }
     }, 1000);
 
     // 언마운트 될 때 인터벌 제거하여 중복 방지
-    return () => clearInterval(timerID.current);
-  }, [time, isPlay]);
+    return () => clearInterval(timerID);
+  }, [time, isPlay, setTime, setRound, setIsPlay]);
 
   // time 60으로 나눈 후 몫은 분이 되고 나머지는 초가 됨.
-
   const StringMinute = String(Math.floor(time / 60));
   const StringSecond = String(time % 60);
 
   return (
-    <TimeWrap
-      variants={timeMotion}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
+    <Wrap variants={timeMotion} initial="initial" animate="animate" exit="exit">
       <Time key={StringMinute} variants={timeMotion}>
         {StringMinute.length === 1 ? `0${StringMinute}` : StringMinute}
       </Time>
@@ -69,7 +69,7 @@ const Timer = () => {
       <Time key={StringSecond} variants={timeMotion}>
         {StringSecond.length === 1 ? `0${StringSecond}` : StringSecond}
       </Time>
-    </TimeWrap>
+    </Wrap>
   );
 };
 
